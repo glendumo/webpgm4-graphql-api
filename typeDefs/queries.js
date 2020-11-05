@@ -2,10 +2,12 @@
  * The GraphQL queries
  */
 
-const  { gql } = require('apollo-server');
+const { gql } = require("apollo-server");
 
 module.exports = gql`
-  type Query {
-    dummy:Dummy
-  }
-`
+    type Query {
+        products: [Product]
+        product(id: ID): Product
+        categories: [Category]
+    }
+`;

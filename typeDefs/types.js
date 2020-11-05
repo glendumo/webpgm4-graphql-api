@@ -2,18 +2,29 @@
  * The GraphQL types
  */
 
-const  { gql } = require('apollo-server');
+const { gql } = require("apollo-server");
 
 module.exports = gql`
-  scalar Date
+    scalar Date
 
-  #enum Status {
-  #  READ,
-  #  INTERESTED,
-  #  NEVER_READ
-  #}
+    enum Status {
+        READ
+        INTERESTED
+        NEVER_READ
+    }
 
-  type Dummy {
-    id: ID!
-  }
-`
+    type Category {
+        id: ID!
+        name: String!
+    }
+
+    type Product {
+        id: ID!
+        title: String!
+        description: String
+        price: Float!
+        images: [String!]!
+        categories: [Category!]!
+        created_on: Date
+    }
+`;
