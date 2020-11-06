@@ -9,5 +9,6 @@ module.exports = gql`
         products: [Product]
         product(id: ID): Product
         categories: [Category]
+        category(id: ID): Category
     }
 `;

@@ -2,7 +2,7 @@
  * The Query Resolvers
  */
 
-const { Product } = require("../mongo/models");
+const { Product, Category } = require("../mongo/models");
 
 module.exports = {
     Query: {
@@ -12,6 +12,11 @@ module.exports = {
         // get product based on id
         product: async (parent, { id }, context, info) =>
             await Product.findById(id).populate("categories").exec(),
+        // get all categories
+        categories: async () => await Category.find(),
+        // get category based on id
+        category: async (parent, { id }, context, info) =>
+            await Category.findById(id),
     },
 
     // replace string values into category objects depending on the category id's

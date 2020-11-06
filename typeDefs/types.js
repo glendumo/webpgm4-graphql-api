@@ -7,10 +7,10 @@ const { gql } = require("apollo-server");
 module.exports = gql`
     scalar Date
 
-    enum Status {
-        READ
-        INTERESTED
-        NEVER_READ
+    enum Platform {
+        PlayStation
+        Xbox
+        PC
     }
 
     type Category {
@@ -23,6 +23,7 @@ module.exports = gql`
         title: String!
         description: String
         price: Float!
+        platform: Platform!
         images: [String!]!
         categories: [Category!]!
         created_on: Date

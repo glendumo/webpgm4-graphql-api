@@ -20,6 +20,7 @@ const resolvers = require("./resolvers");
 mongoose.connect(process.env.DB_CONNECTIONSTRING, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
 });
 const db = mongoose.connection;
 

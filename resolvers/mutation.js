@@ -16,6 +16,8 @@ module.exports = {
                 categories = await Category.find({ _id: { $in: categoryIds } });
             }
 
+            product.created_on = Date.now();
+
             // let the subscribers know we have added a product
             pubsub.publish("PRODUCT_ADDED", { productAdded: product });
 
@@ -33,16 +35,40 @@ module.exports = {
             { productID, updatedProduct },
             context
         ) => {
-            // find product based on productID arg
-            const product = await Product.findById(productID)
-                .populate("categories")
-                .exec();
-
-            product = updatedProduct;
-
-            // save the changes to the product and return it
-            await product.save();
+            // find product based on ID, update data and return the product
+            let product = await Product.findOneAndUpdate(
+                { _id: productID },
+                updatedProduct,
+                {
+                    new: true,
+                }
+            );
             return product;
+        },
+        updateCategory: async (
+            parent,
+            { categoryID, updatedCategory },
+            context
+        ) => {
+            // find category based on ID, update data and return the category
+            let category = await Category.findOneAndUpdate(
+                { _id: categoryID },
+                updatedCategory,
+                {
+                    new: true,
+                }
+            );
+            return category;
+        },
+        deleteProduct: async (parent, { productID }, context) => {
+            // find product based on ID, delete and return it
+            let product = await Product.findOneAndDelete({ _id: productID });
+            return product;
+        },
+        deleteCategory: async (parent, { categoryID }, context) => {
+            // find category based on ID, delete and return it
+            let category = await Category.findOneAndDelete({ _id: categoryID });
+            return category;
         },
     },
 };

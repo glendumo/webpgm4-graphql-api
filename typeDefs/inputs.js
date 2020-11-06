@@ -10,12 +10,16 @@ module.exports = gql`
         title: String
         description: String
         price: Float
+        platform: Platform
         images: [String]
-        categories: [CategoryInput]
-        created_on: Date
+        categories: [CategoryIDInput]
     }
 
     input CategoryInput {
+        name: String
+    }
+
+    input CategoryIDInput {
         id: ID
     }
 `;
