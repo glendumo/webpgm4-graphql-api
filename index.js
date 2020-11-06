@@ -17,39 +17,48 @@ const resolvers = require("./resolvers");
  * Mongoose Database
  */
 
-mongoose.connect(process.env.DB_CONNECTIONSTRING, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-});
-const db = mongoose.connection;
+const openMongoDB = () => {
+    return new Promise((resolve, reject) => {
+        mongoose.connect(process.env.DB_CONNECTIONSTRING, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useFindAndModify: false,
+        });
+        mongoose.connection.on("error", (e) => reject(e.message));
+        mongoose.connection.once("open", () => resolve());
+    });
+};
 
 /**
  * Create an Apollo Server instance
  */
 
-const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    introspection: true,
-    playground: true,
-    context: ({ req }) => {
-        // console.log(req);
-    },
-});
+const startServer = () => {
+    return new Promise((resolve, reject) => {
+        const server = new ApolloServer({
+            typeDefs,
+            resolvers,
+            introspection: true,
+            playground: true,
+            context: ({ req }) => {
+                // console.log(req);
+            },
+        });
+        server
+            .listen({
+                port: process.env.PORT || process.env.GRAPHQL_PORT || 4000,
+            })
+            .then(({ url }) => {
+                resolve(url);
+            });
+    });
+};
 
 /**
- * Connect the Database & Start the server
+ * Start the API
  */
 
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", () => {
-    console.log("Database connected!");
-    server
-        .listen({
-            port: process.env.PORT || process.env.GRAPHQL_PORT || 4000,
-        })
-        .then(({ url }) => {
-            console.log(`Server started at ${url}`);
-        });
-});
+openMongoDB()
+    .then(startServer)
+    .then((url) => console.log(`Server started at ${url}`))
+    .catch((e) => console.error(e));
