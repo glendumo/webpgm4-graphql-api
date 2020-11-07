@@ -9,6 +9,7 @@
 
 const { ApolloServer } = require("apollo-server");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config();
 const typeDefs = require("./typeDefs");
 const resolvers = require("./resolvers");
@@ -41,7 +42,19 @@ const startServer = () => {
             introspection: true,
             playground: true,
             context: ({ req }) => {
-                // console.log(req);
+                const authHeader = req.headers["authorization"];
+                const token = authHeader && authHeader.split(" ")[1];
+                try {
+                    const decodedToken = jwt.verify(
+                        token,
+                        process.env.TOKEN_SALT
+                    );
+                    return decodedToken && decodedToken.userId
+                        ? { userId: decodedToken.userId }
+                        : { userId: "" };
+                } catch {
+                    return { userId: "" };
+                }
             },
         });
         server

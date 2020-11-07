@@ -28,4 +28,15 @@ module.exports = gql`
         categories: [Category!]!
         created_on: Date
     }
+
+    type User {
+        id: ID!
+        email: String!
+        password: String!
+    }
+
+    type AuthData {
+        userId: ID
+        token: String
+    }
 `;

@@ -22,4 +22,9 @@ module.exports = gql`
     input CategoryIDInput {
         id: ID
     }
+
+    input UserInput {
+        email: String
+        password: String
+    }
 `;

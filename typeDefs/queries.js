@@ -10,5 +10,8 @@ module.exports = gql`
         product(id: ID): Product
         categories: [Category]
         category(id: ID): Category
+        users: [User]
+        user(id: ID): User
+        login(user: UserInput): AuthData
     }
 `;

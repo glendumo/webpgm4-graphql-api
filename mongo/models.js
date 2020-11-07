@@ -10,6 +10,7 @@ const mongoose = require("mongoose");
 
 const ProductSchema = require("./schemas/product");
 const CategorySchema = require("./schemas/category");
+const UserSchema = require("./schemas/user");
 
 /**
  * Creating mongoose models
@@ -17,6 +18,7 @@ const CategorySchema = require("./schemas/category");
 
 const Product = mongoose.model("Product", ProductSchema);
 const Category = mongoose.model("Category", CategorySchema);
+const User = mongoose.model("User", UserSchema);
 
 /**
  * Exporting the models
@@ -25,4 +27,5 @@ const Category = mongoose.model("Category", CategorySchema);
 module.exports = {
     Product,
     Category,
+    User,
 };

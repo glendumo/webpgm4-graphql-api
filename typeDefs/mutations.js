@@ -12,5 +12,6 @@ module.exports = gql`
         updateCategory(categoryID: ID, updatedCategory: CategoryInput): Category
         deleteProduct(productID: ID): Product
         deleteCategory(categoryID: ID): Category
+        register(user: UserInput): User
     }
 `;
