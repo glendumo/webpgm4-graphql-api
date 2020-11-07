@@ -103,6 +103,7 @@ module.exports = {
             const newUser = await User.create({
                 email,
                 password: hashedPassword,
+                isAdmin: false,
             });
 
             // reset the password for security

@@ -33,6 +33,7 @@ module.exports = gql`
         id: ID!
         email: String!
         password: String!
+        isAdmin: Boolean
     }
 
     type AuthData {
